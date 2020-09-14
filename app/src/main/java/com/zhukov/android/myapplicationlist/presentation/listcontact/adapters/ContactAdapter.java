@@ -24,6 +24,7 @@ import com.zhukov.android.myapplicationlist.presentation.listcontact.view.Contac
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> {
@@ -32,18 +33,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
     private OnItemClickListener mOnItemClickListener;
 
 
-    public static boolean mFilter = true;
-
-    public static boolean isFilter() {
-        return mFilter;
-    }
-
-    public static void setFilter(boolean filter) {
-        mFilter = filter;
-    }
-
-    public ContactAdapter(){
-        mContactModels = createContactModel();
+    public ContactAdapter(OnItemClickListener onItemClickListener){
+        mContactModels = new ArrayList<>();
+        mOnItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -55,13 +47,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
 
     @Override
     public void onBindViewHolder(@NonNull final ContactHolder holder, int position) {
-        final ContactModel contactModel = ContactListFragment.getFilterList(mContactModels,mFilter).get(position);
         final Context context = holder.itemView.getContext();
-        holder.bind(contactModel);
+        holder.bind(mContactModels.get(position));
         holder.mMenuItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createPopupMenu(context,holder.mMenuItem,holder);
+               holder.createPopupMenu(context,holder.mMenuItem,holder);
             }
         });
     }
@@ -72,10 +63,16 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
         return mContactModels.size();
     }
 
+    public void updateList(List<ContactModel> contactModelList){
+        mContactModels.clear();
+        mContactModels.addAll(contactModelList);
+        notifyDataSetChanged();
+    }
+
 
     class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        //private ContactModel mContactModel;
+        private UUID mContactId;
 
         private ImageView mPhotoItem;
         private TextView mNameItem;
@@ -96,6 +93,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
         }
 
         public void bind(ContactModel contactModel){
+            mContactId = contactModel.getContactId();
             String itemName = contactModel.getContactFirstName();
             String itemSecondName = contactModel.getContactLastName();
             String itemNumber = contactModel.getContactMainNumber();
@@ -125,65 +123,46 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
 
 
 
+
         @Override
         public void onClick(View view) {
-         mOnItemClickListener.onItemClick();
-
+            mOnItemClickListener.onItemClick(mContactId);
         }
-    }
-    private void createPopupMenu(final Context context, final View view, final ContactHolder contactHolder){
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        popupMenu.inflate(R.menu.item_option_menu);
-        popupMenu.show();
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.mnu_item_edit:
-                        Navigation.findNavController(view).navigate(R.id.editContactFragment);
-                        Toast.makeText(context,
-                                "Вы перешли на экран редактирования!",
-                                Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.mnu_item_delete:
-                       int newPosition = contactHolder.getBindingAdapterPosition();
-                       mContactModels.remove(newPosition);
-                       notifyItemRemoved(newPosition);
-                        Toast.makeText(context,
-                                "Контакт удалён!",
-                                Toast.LENGTH_SHORT).show();
-                        return true;
-                    default:
-                        return false;
+
+        private void createPopupMenu(final Context context, final View view, final ContactHolder contactHolder){
+            PopupMenu popupMenu = new PopupMenu(context, view);
+            popupMenu.inflate(R.menu.item_option_menu);
+            popupMenu.show();
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.mnu_item_edit:
+                            mOnItemClickListener.onMenuItemEditClick(mContactId);
+                            return true;
+                        case R.id.mnu_item_delete:
+                            int newPosition = contactHolder.getAdapterPosition();
+                            notifyItemRemoved(newPosition);
+                            mContactModels.remove(newPosition);
+                            notifyDataSetChanged();
+                            mOnItemClickListener.deleteItem(mContactId);
+                            return true;
+                        default:
+                            return false;
+                    }
                 }
-            }
-        });
-
-    }
-
-
-
-    private List<ContactModel> createContactModel(){
-        List<ContactModel> contactModelList = new ArrayList<>();
-        for (int i = 0; i<20;i++) {
-
-                ContactModel contactModel = new ContactModel();
-                contactModel.setContactFirstName("Dima" + i);
-                contactModel.setContactLastName("Zhukov" + i+3);
-                contactModel.setContactMainNumber("+79111619177");
-            ContactModel contactModel2 = new ContactModel();
-            contactModel2.setContactFirstName("Nika" + i);
-            contactModel2.setContactLastName("Tolstykh" + i+3);
-            contactModel2.setContactMainNumber("+79111619177");
-            contactModelList.add(contactModel2);
-                contactModelList.add(contactModel);
+            });
 
         }
-        return contactModelList;
     }
 
     public interface OnItemClickListener{
-       void   onItemClick();
+
+       void  onItemClick(UUID contactId);
+
+       void onMenuItemEditClick(UUID contactId);
+
+       void deleteItem(UUID contactId);
     }
 
 

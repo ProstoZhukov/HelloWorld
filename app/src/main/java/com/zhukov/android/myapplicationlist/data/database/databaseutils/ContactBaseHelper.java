@@ -14,6 +14,7 @@ public class ContactBaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("create table " + ContactTable.NAME + "(" +
@@ -25,7 +26,10 @@ public class ContactBaseHelper extends SQLiteOpenHelper {
                 ContactTable.Cols.PHOTO_URI +", " +
                 ContactTable.Cols.MAIN_NUMBER +", " +
                 ContactTable.Cols.SECOND_NUMBER +", " +
+                ContactTable.Cols.SECOND_NUMBER2 +", " +
                 ContactTable.Cols.SOCIAL_MEDIA +", " +
+                ContactTable.Cols.SOCIAL_MEDIA2 +", " +
+                ContactTable.Cols.SOCIAL_MEDIA3 +", " +
                 ContactTable.Cols.ADDITIONAL_INFORMATION +
                 ")"
         );

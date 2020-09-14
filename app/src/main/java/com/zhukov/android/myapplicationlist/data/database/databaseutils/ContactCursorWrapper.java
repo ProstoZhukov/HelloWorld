@@ -21,7 +21,10 @@ public class ContactCursorWrapper extends CursorWrapper {
         String contactPhoto = getString(getColumnIndex(ContactTable.Cols.PHOTO_URI));
         String contactMainNumber = getString(getColumnIndex(ContactTable.Cols.MAIN_NUMBER));
         String contactSecondNumber = getString(getColumnIndex(ContactTable.Cols.SECOND_NUMBER));
+        String contactSecondNumber2 = getString(getColumnIndex(ContactTable.Cols.SECOND_NUMBER2));
         String contactSocialMedia = getString(getColumnIndex(ContactTable.Cols.SOCIAL_MEDIA));
+        String contactSocialMedia2 = getString(getColumnIndex(ContactTable.Cols.SOCIAL_MEDIA2));
+        String contactSocialMedia3 = getString(getColumnIndex(ContactTable.Cols.SOCIAL_MEDIA3));
         String contactInformation = getString(getColumnIndex(ContactTable.Cols.ADDITIONAL_INFORMATION));
 
         ContactModel contactModel = new ContactModel(UUID.fromString(uuidString));
@@ -31,7 +34,10 @@ public class ContactCursorWrapper extends CursorWrapper {
         contactModel.setContactPhoto(contactPhoto);
         contactModel.setContactMainNumber(contactMainNumber);
         contactModel.setContactSecondNumber(contactSecondNumber);
+        contactModel.setContactSecondNumber2(contactSecondNumber2);
         contactModel.setContactSocialMedia(contactSocialMedia);
+        contactModel.setContactSocialMedia2(contactSocialMedia2);
+        contactModel.setContactSocialMedia3(contactSocialMedia3);
         contactModel.setContactInformation(contactInformation);
 
 

@@ -1,4 +1,4 @@
-package com.zhukov.android.myapplicationlist.data.database;
+package com.zhukov.android.myapplicationlist.data.database.MyContactSQLite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -13,11 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ContactLab {
+public class MyContactSQLite implements IMyContactSQLite{
 
     private SQLiteDatabase mDatabase;
+    private UUID mUUID;
 
-    public ContactLab(ContactBaseHelper contactBaseHelper){
+
+
+    public MyContactSQLite(ContactBaseHelper contactBaseHelper){
         mDatabase =  contactBaseHelper.getWritableDatabase();
     }
 
@@ -30,18 +33,25 @@ public class ContactLab {
         values.put(ContactTable.Cols.PHOTO_URI, contactModel.getContactPhoto());
         values.put(ContactTable.Cols.MAIN_NUMBER, contactModel.getContactMainNumber());
         values.put(ContactTable.Cols.SECOND_NUMBER, contactModel.getContactSecondNumber());
+        values.put(ContactTable.Cols.SECOND_NUMBER2, contactModel.getContactSecondNumber2());
         values.put(ContactTable.Cols.SOCIAL_MEDIA, contactModel.getContactSocialMedia());
+        values.put(ContactTable.Cols.SOCIAL_MEDIA2, contactModel.getContactSocialMedia2());
+        values.put(ContactTable.Cols.SOCIAL_MEDIA3, contactModel.getContactSocialMedia3());
         values.put(ContactTable.Cols.ADDITIONAL_INFORMATION, contactModel.getContactInformation());
 
         return values;
     }
 
-    public void addContact(ContactModel contactModel){
+    @Override
+    public UUID addContact() {
+        ContactModel contactModel = new ContactModel(UUID.randomUUID());
         ContentValues values = getContentValues(contactModel);
         mDatabase.insert(ContactTable.NAME,null,values);
+        return contactModel.getContactId();
     }
 
-    public void updateContact(ContactModel contactModel){
+    @Override
+    public void updateContact(ContactModel contactModel) {
         String uuidString = contactModel.getContactId().toString();
         ContentValues values = getContentValues(contactModel);
 
@@ -50,8 +60,8 @@ public class ContactLab {
                 new String[]{ uuidString });
     }
 
-    private ContactCursorWrapper queryContacts(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(
+    private ContactCursorWrapper queryContacts(SQLiteDatabase db, String whereClause, String[] whereArgs) {
+        Cursor cursor = db.query(
                 ContactTable.NAME,
                 null, // columns - с null выбираются все столбцы
                 whereClause,
@@ -63,10 +73,12 @@ public class ContactLab {
         return new ContactCursorWrapper(cursor);
     }
 
+    @Override
     public List<ContactModel> getContacts(){
+        ContactCursorWrapper cursorWrapper = queryContacts(mDatabase,
+                null,
+                null);
         List<ContactModel> contactModelList = new ArrayList<>();
-
-        ContactCursorWrapper cursorWrapper = queryContacts(null,null);
         try {
             cursorWrapper.moveToFirst();
             while (!cursorWrapper.isAfterLast()){
@@ -79,11 +91,12 @@ public class ContactLab {
         return contactModelList;
     }
 
+    @Override
     public ContactModel getContact(UUID id){
-
-        ContactCursorWrapper cursorWrapper = queryContacts(
+        String uuidString = id.toString();
+        ContactCursorWrapper cursorWrapper = queryContacts(mDatabase,
                 ContactTable.Cols.UUID + " = ?",
-                new String[]{id.toString()}
+                new String[]{uuidString}
                 );
         try {
             if(cursorWrapper.getCount() == 0){
@@ -97,14 +110,11 @@ public class ContactLab {
         }
     }
 
+    @Override
     public void deleteContact(UUID contactId) {
         String uuidString = contactId.toString();
         mDatabase.delete(ContactTable.NAME,
                 ContactTable.Cols.UUID + " = ?",
                 new String[]{uuidString});
     }
-
-
-
-
 }

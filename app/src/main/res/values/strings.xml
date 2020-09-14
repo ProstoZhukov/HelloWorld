@@ -14,4 +14,13 @@
     <string name="filter">Фильтр</string>
     <string name="filter_menu_secondName">По фамили</string>
     <string name="filter_menu_name">По имени</string>
+    <string name="unknown_number_now">Номер не указан!</string>
+    <string name="unknown_info">Информация неизвестна</string>
+    <string name="second_name">Фамилия:</string>
+    <string name="name">Имя:</string>
+    <string name="patronymic">Отчество:</string>
+    <string name="add_social">Добавить соцсеть</string>
+    <string name="add_number">Добавить номер</string>
+    <string name="hello_world">Hello World</string>
+
 </resources>

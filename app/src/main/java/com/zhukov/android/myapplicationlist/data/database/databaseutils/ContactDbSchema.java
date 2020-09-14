@@ -12,7 +12,10 @@ public class ContactDbSchema {
             public static final String PHOTO_URI = "photoUri";
             public static final String MAIN_NUMBER = "mainNumber";
             public static final String SECOND_NUMBER = "secondNumber";
+            public static final String SECOND_NUMBER2 = "secondNumber2";
             public static final String SOCIAL_MEDIA = "socialMedia";
+            public static final String SOCIAL_MEDIA2 = "socialMedia2";
+            public static final String SOCIAL_MEDIA3 = "socialMedia3";
             public static final String ADDITIONAL_INFORMATION = "additionalInformation";
         }
     }
