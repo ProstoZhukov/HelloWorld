@@ -17,6 +17,5 @@ public interface IContactListView {
 
     List<ContactModel> updateContactListFirstName(List<ContactModel> modelList);
 
-    /*void goToEditScreen();*/
 
 }

@@ -81,7 +81,6 @@ public class ContactListPresenter implements IContactListPresenter {
     public void loadContactList() {
         mDisposer.add(mInteractor.loadContactList()
                     .subscribe(this::onLoadSuccess, this::onError));
-
     }
 
     @Override

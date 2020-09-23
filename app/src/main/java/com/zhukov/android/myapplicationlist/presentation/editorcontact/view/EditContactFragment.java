@@ -19,7 +19,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.zhukov.android.myapplicationlist.App;
@@ -34,7 +33,6 @@ import javax.inject.Inject;
 
 public class EditContactFragment extends Fragment implements IEditContactView {
     public static final String ARG_CONTACT_EDIT_ID = "contactId";
-    private static final String SAVED_CONTACT_MODEL = "saveId";
 
 
     @Inject

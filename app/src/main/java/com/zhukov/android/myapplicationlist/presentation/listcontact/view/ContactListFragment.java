@@ -35,9 +35,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 public class ContactListFragment extends Fragment implements IContactListView, OnItemClickListener {
-    private static final String SAVED_CONTACT_LIST = "contactList";
-
-
 
     private RecyclerView mContactRecyclerView;
     private ContactAdapter mContactAdapter;
@@ -63,8 +60,10 @@ public class ContactListFragment extends Fragment implements IContactListView, O
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.contact_list_fragment,container,false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.contact_list_fragment, container, false);
     }
 
 
@@ -101,13 +100,6 @@ public class ContactListFragment extends Fragment implements IContactListView, O
         getLifecycle().removeObserver(mPresenter);
     }
 
-
-    /*@Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_contact_list, menu);
-    }*/
-
     @Override
     public void onItemClick(UUID contactId) {
         mPresenter.onItemClicked(contactId);
@@ -135,21 +127,13 @@ public class ContactListFragment extends Fragment implements IContactListView, O
 
     @Override
     public void openEditContactScreen(UUID contactId) {
-        if(getView()!= null) {
+        if (getView() != null) {
             Bundle args = new Bundle();
             args.putString(EditContactFragment.ARG_CONTACT_EDIT_ID, contactId.toString());
-            Navigation.findNavController(getView()).navigate(R.id.editContactFragment,args);
+            Navigation.findNavController(getView()).navigate(R.id.editContactFragment, args);
             mContactAdapter.notifyDataSetChanged();
         }
     }
-
-  /*  @Override
-    public void goToEditScreen() {
-        if(getView()!= null) {
-            Navigation.findNavController(getView()).navigate(R.id.editContactFragment);
-            mContactAdapter.notifyDataSetChanged();
-        }
-    }*/
 
     @Override
     public void openContactScreen(UUID contactId) {

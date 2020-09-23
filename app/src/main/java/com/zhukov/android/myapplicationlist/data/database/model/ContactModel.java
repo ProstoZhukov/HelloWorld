@@ -1,59 +1,30 @@
 package com.zhukov.android.myapplicationlist.data.database.model;
 
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.UUID;
 
-public class ContactModel implements Parcelable {
+public class ContactModel {
     private UUID mContactId;
-    private String mContactFirstName="";
-    private String mContactLastName="";
-    private String mPatronymic="";
+    private String mContactFirstName = "";
+    private String mContactLastName = "";
+    private String mPatronymic = "";
     private String mContactPhoto;
-    private String mContactMainNumber="";
-    private String mContactSecondNumber="";
-    private String mContactSecondNumber2="";
-    private String mContactSocialMedia="";
-    private String mContactSocialMedia2="";
-    private String mContactSocialMedia3="";
-    private String mContactInformation="";
+    private String mContactMainNumber = "";
+    private String mContactSecondNumber = "";
+    private String mContactSecondNumber2 = "";
+    private String mContactSocialMedia = "";
+    private String mContactSocialMedia2 = "";
+    private String mContactSocialMedia3 = "";
+    private String mContactInformation = "";
 
 
-   public ContactModel(){
-       mContactId = UUID.randomUUID();
-   }
-
-   public ContactModel(UUID id){
-       mContactId = id;
-   }
-
-    protected ContactModel(Parcel in) {
-        mContactFirstName = in.readString();
-        mContactLastName = in.readString();
-        mPatronymic = in.readString();
-        mContactPhoto = in.readString();
-        mContactMainNumber = in.readString();
-        mContactSecondNumber = in.readString();
-        mContactSecondNumber2 = in.readString();
-        mContactSocialMedia = in.readString();
-        mContactSocialMedia2 = in.readString();
-        mContactSocialMedia3 = in.readString();
-        mContactInformation = in.readString();
+    public ContactModel() {
+        mContactId = UUID.randomUUID();
     }
 
-    public static final Creator<ContactModel> CREATOR = new Creator<ContactModel>() {
-        @Override
-        public ContactModel createFromParcel(Parcel in) {
-            return new ContactModel(in);
-        }
-
-        @Override
-        public ContactModel[] newArray(int size) {
-            return new ContactModel[size];
-        }
-    };
+    public ContactModel(UUID id) {
+        mContactId = id;
+    }
 
     public UUID getContactId() {
         return mContactId;
@@ -145,25 +116,5 @@ public class ContactModel implements Parcelable {
 
     public void setContactInformation(String contactInformation) {
         mContactInformation = contactInformation;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mContactFirstName);
-        parcel.writeString(mContactLastName);
-        parcel.writeString(mPatronymic);
-        parcel.writeString(mContactPhoto);
-        parcel.writeString(mContactMainNumber);
-        parcel.writeString(mContactSecondNumber);
-        parcel.writeString(mContactSecondNumber2);
-        parcel.writeString(mContactSocialMedia);
-        parcel.writeString(mContactSocialMedia2);
-        parcel.writeString(mContactSocialMedia3);
-        parcel.writeString(mContactInformation);
     }
 }

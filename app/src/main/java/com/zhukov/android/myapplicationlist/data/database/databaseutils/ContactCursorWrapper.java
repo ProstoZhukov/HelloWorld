@@ -40,7 +40,6 @@ public class ContactCursorWrapper extends CursorWrapper {
         contactModel.setContactSocialMedia3(contactSocialMedia3);
         contactModel.setContactInformation(contactInformation);
 
-
         return contactModel;
 
     }
