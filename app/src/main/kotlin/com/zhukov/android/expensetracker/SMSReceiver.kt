@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Telephony
 import android.util.Log
+import com.zhukov.android.expensetracker.ExpenseCategory
 
 /**
  * BroadcastReceiver to listen for incoming SMS messages
@@ -31,7 +32,7 @@ class SMSReceiver : BroadcastReceiver() {
         val match = regex.find(body)
         val amount = match?.value?.replace(',', '.')?.toDoubleOrNull()
         if (amount != null) {
-            val expense = Expense(amount, category = "SMS", description = body)
+            val expense = Expense(amount, category = ExpenseCategory.SMS, description = body)
             ExpenseRepository.addExpense(expense)
             Log.d("SMSReceiver", "Added expense from SMS: $expense")
         }

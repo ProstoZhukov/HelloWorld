@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zhukov.android.myapplicationlist.R
 
+// Import the predefined categories
+import com.zhukov.android.expensetracker.ExpenseCategory
+import com.zhukov.android.expensetracker.AddExpenseDialogFragment
+
 /**
  * Main activity showing the list of expenses.
  */
@@ -25,9 +29,9 @@ class ExpenseTrackerActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         findViewById<FloatingActionButton>(R.id.add_expense_button).setOnClickListener {
-            // For demo purposes we add a dummy expense
-            ExpenseRepository.addExpense(Expense(10.0, "Demo", "Added manually"))
-            adapter.notifyDataSetChanged()
+            AddExpenseDialogFragment {
+                adapter.notifyDataSetChanged()
+            }.show(supportFragmentManager, "addExpense")
         }
     }
 }

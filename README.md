@@ -1,6 +1,8 @@
 # HelloWorld Android Application
 
-This project contains a sample Android app written mainly in Java. A recent commit added basic Kotlin support and some skeleton classes for an expense tracking feature.
+This project contains a sample Android app written mainly in Java. Recent commits introduced Kotlin sources with a minimal expense tracker feature. The Kotlin portion demonstrates reading SMS messages to extract expenses, a simple Bluetooth sync placeholder, and a RecyclerView based UI.
+
+Expenses use a set of predefined categories that can be extended in code. A dialog allows manually adding new entries.
 
 ## Building
 

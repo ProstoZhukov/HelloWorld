@@ -7,7 +7,7 @@ import java.util.Date
  */
 data class Expense(
     val amount: Double,
-    val category: String,
+    val category: ExpenseCategory,
     val description: String = "",
     val date: Date = Date()
 )

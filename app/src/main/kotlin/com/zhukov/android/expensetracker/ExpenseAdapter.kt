@@ -26,7 +26,7 @@ class ExpenseAdapter(private val items: List<Expense>) : RecyclerView.Adapter<Ex
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.amount.text = item.amount.toString()
-        holder.category.text = item.category
+        holder.category.text = item.category.displayName()
         holder.description.text = item.description
     }
 }
